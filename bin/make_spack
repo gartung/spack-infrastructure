@@ -11,7 +11,7 @@ esac
 # binary cache to use
 #
 
-binary_cache=https://spack-cache-1.fnal.gov/binaries/
+binary_cache=http://scisoft.fnal.gov/scisoft/spack-mirror
 
 install_latest() {
     pkg="$1"
@@ -112,7 +112,7 @@ create_spack() {
             echo "make_spack: INFO: running: $add_config"
             eval "$add_config"
             export plat="target=`uname -i` os=`spack arch --operating-system`"
-            spack mirror add --scope site fnal $binary_cache
+            spack mirror add --scope site scisoft $binary_cache
             spack buildcache update-index  -d $binary_cache
             spack -k buildcache keys --install --trust --force
             add_recipe_repos
