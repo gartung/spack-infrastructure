@@ -13,7 +13,7 @@ gpghome=${gpghome:-$defgpghome}
 
 for bci in $*
 do
-    specfile=`tar tvf $bci | grep '.spec.yaml$' | sed -e 's/.* //'`
+    specfile=`tar tvf $bci | grep '.spec.json$' | sed -e 's/.* //'`
     tar xf $bci $specfile
     gpg --homedir $gpghome --local-user $USER@fnal.gov --detach-sign --armor $specfile 
     tar rf $bci $specfile.asc
