@@ -12,7 +12,7 @@ optf=$dir/templates/package_opts
 dst=$1/etc/spack/$os/packages.yaml
 
 # packages to make not buildable...
-force_system="(bzip2|diffutils|expat|findutils|gdbm|gettext|libdrm|libedit|libffi|libjpeg-turbo|libgcrypt|libpciaccess|libpng|lz4|ncurses|openssl|pcre|pkgconf|pkg-config|readline|tar|xz|zlib)"
+force_system="(bzip2|diffutils|expat|findutils|gdbm|gettext|libdrm|libedit|libgcrypt|libpciaccess|lz4|ncurses|openssl|pcre|pkgconf|pkg-config|readline|tar)"
 
 no_devel='(diffutils|findutils|pkg-config|pkgconfig|tar)'
 
@@ -111,7 +111,7 @@ getv2() {
   then
       x=`grep $1 $dir/templates/default_versions | sed -e 's/.*@//'`
   fi
-  echo $x
+  echo $x | sed -e 's/ .*//'
 }
 
 mkdir -p `dirname $dst`
@@ -186,11 +186,11 @@ do
         case $SPACK_ROOT in
         *rollout*)
             echo "    paths:"           >&3
-            echo "      ${lp}@$v$opts$comp os=$os: /usr"    >&3
+            echo "      \"${lp} @$v $opts $comp\": /usr"    >&3
             ;;
         *)
             echo "    externals:" >&3
-            echo "    - spec: ${lp}@$v$opts$comp os=$os" >&3
+            echo "    - spec: \"${lp} @$v $opts $comp\"" >&3
             echo "      prefix: /usr" >&3
         esac
         echo "    buildable: False"           >&3
@@ -208,11 +208,11 @@ do
         case $SPACK_ROOT in
         *rollout*)
             echo "    paths:"           >&3
-            echo "      $lp@$v$opts$comp os=$os: $cprefix"    >&3
+            echo "      \"$lp @$v $opts $comp\": $cprefix"    >&3
             ;;
         *)
             echo "    externals:" >&3
-            echo "    - spec: ${lp}@$v$opts$comp os=$os" >&3
+            echo "    - spec: \"${lp} @$v $opts $comp\"" >&3
             echo "      prefix: $cprefix" >&3
             ;;
         esac
